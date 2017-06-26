@@ -33,6 +33,7 @@ RUN apt-get install bedtools -y
 RUN pip install --upgrade cython
 RUN pip install --upgrade numpy
 RUN apt-get install zlib1g-dev
+RUN apt-get install liblzma-dev libbz2-dev -y
 RUN pip install pysam
 RUN pip install bx-python
 RUN pip install HTseq
