@@ -200,7 +200,11 @@ def variant_count(read_line, haplotype_dict_pos):
             ref_pos = pos_ref_variant_count
             for ii in range(0, length_cigar_op):
                 # current_chromosome = 'chr' + str(read_line.tid)
-                ref_base = chr(reference_seq.seq[ref_pos]).upper()
+                ref_base = reference_seq.seq[ref_pos]
+                if isinstance(ref_base, int):
+                    ref_base = chr(reference_seq.seq[ref_pos])
+                ref_base = ref_base.upper()
+
                 pos_ref_variant_count += 1
                 if pos_ref_variant_count in haplotype_dict_pos:  # IF ITS A HAPLOTYPED READ
                     if haplotype_dict_pos[pos_ref_variant_count]['type'] == 'S':
