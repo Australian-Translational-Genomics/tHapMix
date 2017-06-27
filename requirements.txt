@@ -1,2 +1,5 @@
+HTSeq
+pysam
 cython
-numpy 
+numpy
+bx-python
