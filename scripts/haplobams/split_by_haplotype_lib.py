@@ -1,8 +1,10 @@
+from __future__ import print_function
+from __future__ import print_function
 import sys
 sys.path.append('/opt/rh/python27/root/usr/lib64/python2.7/site-packages/pysam')
 sys.path.append('/home/ptedder/local/lib/python2.7/site-packages')
 sys.path.append('/home/ptedder/local/lib64/python2.7/site-packages')
-print sys.path
+print(sys.path)
 import random,pysam,re,subprocess,HTSeq,pdb,argparse
 from collections import defaultdict
 
@@ -20,7 +22,7 @@ sample_name=args.sample_name
 chr_no=args.chr_no
 bam_file=args.bam_file
 ref_file=args.ref_file
-print "chr_no ", chr_no
+print("chr_no ", chr_no)
 snp_file=args.snp_file
 indel_file=args.indel_file
 if (args.chr_prefix):
@@ -65,7 +67,7 @@ def main():
 
         if not read_line.qname in read_variant_dict:
             read_variant_dict[read_line.qname]={}
-    
+
         rvd=variant_count(read_line,haplotype_dict_pos)
         read_variant_dict[read_line.qname].update(rvd) #HYPOTHETICAL BUG IF INDEL AND SNP AT SAME POS
 
@@ -110,7 +112,7 @@ def main():
                 if pos<read_line.pos:
                     paired_read.pop(pos, None)
 
-        
+
 
 
 
@@ -125,10 +127,10 @@ def read_in_vcf(vcf_file):
         if not re.search('bwa',line) and not re.search('isaac',line): # ONLY TRUST ISAAC & BWA BASED CALLS
             continue
         else:
-            
-            
+
+
             (chrom,pos,id,ref,alt,qual,filter,info,format,NA12877,NA12878,NA12879,NA12880,NA12881,NA12882,NA12883,NA12884,NA12885,NA12886,NA12887,NA12888,NA12889,NA12890,NA12891,NA12892,NA12893)=line.strip().split('\t')
-            
+
             if re.match('chr',chr) and not re.match('chr',chrom):
                 chrom='chr'+chrom
             if chrom != chr:

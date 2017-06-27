@@ -51,15 +51,17 @@ def main():
     (haplotype_dict_snvs, haplotype_dict_snvs_pos) = read_in_vcf(haplotyped_snp_file)
     (haplotype_dict_indels, haplotype_dict_indels_pos) = read_in_vcf(haplotyped_indel_file)
 
+    haplotype_c_dict = {}
+    haplotype_c_dict.update(haplotype_dict_snvs['haplotypeC'])
+    haplotype_c_dict.update(haplotype_dict_indels['haplotypeC'])
+
+    haplotype_d_dict = {}
+    haplotype_d_dict.update(haplotype_dict_snvs['haplotypeD'])
+    haplotype_d_dict.update(haplotype_dict_indels['haplotypeD'])
+
     chr_variant_dict = {
-        'haplotypeC': {
-            **haplotype_dict_snvs['haplotypeC'],
-            **haplotype_dict_indels['haplotypeC']
-        },
-        'haplotypeD': {
-            **haplotype_dict_snvs['haplotypeD'],
-            **haplotype_dict_indels['haplotypeD']
-        }
+        'haplotypeC': haplotype_c_dict,
+        'haplotypeD': haplotype_d_dict
     }
 
     haplotype_dict_pos = dict(
