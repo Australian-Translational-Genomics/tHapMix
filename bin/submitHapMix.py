@@ -57,6 +57,8 @@ def parse_sim_config_file(sim_config_file, params):
     config = json.load(open(sim_config_file))
     config_dir = os.path.dirname(os.path.realpath(sim_config_file))
 
+    params.chr_prefix = config.get("chr_prefix") or ''
+
     # Parameters defining the clonal evolution
     params.purity = float(config["purity"])
     params.num_clones = config["num_clones"]

@@ -136,7 +136,7 @@ class RunHapMixWorkflow(WorkflowRunner):
                 clTask += " -a %s/sorted_haplotypeC_chr%d.bam" % (self.params.haplotyped_bam_dir, chrID)
                 clTask += " -b %s/sorted_haplotypeD_chr%d.bam" % (self.params.haplotyped_bam_dir, chrID)
                 clTask += " -o %s/%s_chr%d.bam" % (self.params.output_dir, self.params.output_bam_file, chrID)
-                clTask += " -c %d" % (chrID)
+                clTask += " -c %s%d" % (self.params.chr_prefix, chrID)
                 clTask += " -t %s" % (merged_bed)
                 if self.params.mutate_sv:
                     tmpClone = " -s "
