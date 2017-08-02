@@ -429,7 +429,15 @@ def read_in_somatic_vcf_file(somatic_snv_files, clonal_percs, query_chr, truth_s
             random_no = random.random()
             if random_no > subsample_somatic_snvs:
                 continue
-            (chrom, pos, rs_id, ref, alt, qual, filter_result) = line.strip().split()
+            vcf_headers = line.strip().split()
+            chrom = vcf_headers[0]
+            pos = vcf_headers[1]
+            rs_id = vcf_headers[2]
+            ref = vcf_headers[3]
+            alt = vcf_headers[4]
+            qual = vcf_headers[5]
+            filter_result = vcf_headers[6]
+
             pos = int(pos)
             if chrom != query_chr:
                 continue
