@@ -1,47 +1,41 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 
-RUN apt-get update
-RUN apt-get upgrade -y
+# install build and config tools
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    build-essential \
+    pkg-config \
+    liblzma-dev \
+    libbz2-dev \
+    libatlas-base-dev \
+    cmake \
+    ncurses-dev \
+    zlib1g-dev \
+    software-properties-common
 
-# install python and PIP
-RUN apt-get install openssl
-RUN apt-get install python2.7 python2.7-dev -y
-RUN apt-get install cython -y
-RUN apt-get install python-setuptools -y
-RUN apt-get install python-pip -y
-RUN apt-get install python-numpy -y
-RUN apt-get install bedtools -y
-RUN apt-get install python-scipy -y
-RUN apt-get install samtools -y
-# ideally, we don't want to use the ubuntu version
-# here because this bloats the Docker image
-# RUN apt-get install python-pandas -y
-RUN easy_install -U distribute
+# install python 2.7
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    openssl \
+    python2.7 \
+    python2.7-dev \
+    python-pip \
+    python-software-properties
 
-# gcc, numpy and such
-RUN apt-get install build-essential -y
-RUN apt-get install gfortran -y
-RUN apt-get install -y libatlas-base-dev
-RUN apt-get install pkg-config -y
-RUN apt-get install software-properties-common python-software-properties -y
-RUN apt-get install cmake -y
-RUN apt-get install ncurses-dev -y
-RUN apt-get install zlib1g-dev -y
-RUN apt-get install bedtools -y
-
-# upgrade to newest versions / install abd clean-up
-RUN pip install --upgrade cython
-RUN pip install --upgrade numpy
-RUN apt-get install zlib1g-dev
-RUN apt-get install liblzma-dev libbz2-dev -y
-RUN pip install pysam
-RUN pip install bx-python
-RUN pip install HTseq
-RUN apt-get clean -y
+# install tHapMix non-pip dependencies
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    bedtools \
+    samtools \
+    gfortran
 
 # copy git repository into the image
 RUN mkdir -p /opt/thapmix
 COPY . /opt/thapmix/
-
-# run HapMix installer in the image
 WORKDIR /opt/thapmix/
+
+# install pip dependencies
+RUN pip install --upgrade setuptools wheel
+RUN pip install -r ./requirements.txt
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get clean
